@@ -11,12 +11,9 @@
 import sys
 from setuptools import setup
 
-# Add here console scripts and other entry points in ini-style format
 entry_points = """
 [console_scripts]
-# script_name = nwt.module:function
-# For example:
-# fibonacci = nwt.skeleton:run
+nwt = nwt.__main__:main
 """
 
 
