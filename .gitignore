@@ -1,4 +1,5 @@
-# Byte-compiled / optimized / DLL files
+from nwt import __version__
+6 Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -106,3 +107,6 @@ venv.bak/
 
 # pre-commit
 .pre-commit-config.yaml
+
+# doit
+.doit.db
