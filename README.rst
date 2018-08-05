@@ -2,14 +2,13 @@
 nwt
 ===
 
-
 Bible new world translation in cli
 
 
 Description
 ===========
 
-A longer description of your project goes here...
+Bible new world translation in cli
 
 
 Note
