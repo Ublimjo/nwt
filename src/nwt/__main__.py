@@ -5,6 +5,7 @@ Entry point of module
 from __future__ import division, print_function, absolute_import
 
 from nwt import __version__
+from nwt.cmd import Interactive
 
 import click
 
@@ -23,6 +24,9 @@ def main(ctx):
     """
     if not ctx.invoked_subcommand:
         greet()
+        workon = Interactive()
+        print(workon)
+        workon.run()
 
 
 def greet():
