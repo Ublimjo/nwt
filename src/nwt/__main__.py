@@ -25,7 +25,6 @@ def main(ctx):
     if not ctx.invoked_subcommand:
         greet()
         workon = Interactive()
-        print(workon)
         workon.run()
 
 

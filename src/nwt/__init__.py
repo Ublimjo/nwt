@@ -7,3 +7,5 @@ try:
     __version__ = get_distribution(dist_name).version
 except DistributionNotFound:
     __version__ = 'unknown'
+
+__author__ = 'Ublim'
