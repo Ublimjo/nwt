@@ -37,6 +37,13 @@ def flatten(inputArr, outputArr=None, isFirst=True):
     return outputArr
 
 
+def entry(_list):
+    _dict = {}
+    for index in _list:
+        _dict[index] = ''
+    return _dict
+
+
 @attr.s
 class InputParser(object):
     query = attr.ib('')
@@ -70,7 +77,8 @@ class InputParser(object):
                     if "-" in str(lsvt):
                         del workon[i]
                         workon.insert(i, unpack(lsvt))
-                subbook[chapter] = flatten(workon)
+                subbook[chapter] = entry(flatten(workon))
             self.result[entbook.closest] = subbook
+            ic(self.result)
 
         parse(self)

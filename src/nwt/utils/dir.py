@@ -10,5 +10,5 @@ class Dir(object):
     sysDir = prefix / 'share' / 'nwt/'
     homeDir = home / '.nwt/'
 
-    bookDir = sysDir / 'book/'
-    tmpRoot = bookDir / 'nwt_E' / 'OEBPS/'
+    bookDir = homeDir / 'book/'
+    tmpRoot = bookDir / 'bi12_MG' / 'OEBPS/'

@@ -53,9 +53,7 @@ class Interactive(object):
         """
         try:
             self.lprompt = self.lp__init__()
-            result = prompt(
-                self.lprompt,
-                mouse_support=True)
+            result = prompt(self.lprompt)
             return result
         except (KeyboardInterrupt, EOFError):
             sys.exit(0)
@@ -72,5 +70,6 @@ class Interactive(object):
             #     if (self.on == 'book'):
             #         self.state['chapter'] = query[0]
             parsed = InputParser(' '.join(query))
+            ic(parsed)
             text = OutputParser(parsed)
             print(text)
