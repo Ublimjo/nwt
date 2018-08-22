@@ -4,7 +4,6 @@ module for entry interaction
 """
 import sys
 import attr
-from icecream import ic
 from prompt_toolkit import prompt
 
 from .inputparser import InputParser
@@ -70,6 +69,5 @@ class Interactive(object):
             #     if (self.on == 'book'):
             #         self.state['chapter'] = query[0]
             parsed = InputParser(' '.join(query))
-            ic(parsed)
             text = OutputParser(parsed)
             print(text)

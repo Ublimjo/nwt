@@ -1,7 +1,6 @@
 import attr
 import textwrap
 from copy import deepcopy as copy
-from icecream import ic
 from bs4 import BeautifulSoup, NavigableString
 
 from nwt.cmd.inputparser import InputParser
