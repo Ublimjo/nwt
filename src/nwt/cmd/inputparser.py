@@ -44,14 +44,13 @@ def entry(_list):
     return _dict
 
 
-@attr.s
 class InputParser(object):
-    query = attr.ib('')
-    isValid = attr.ib(False)
-    result = attr.ib({})
+    def __init__(self, query):
+        self.query = query
+        self.isValid = False
+        self.result = {}
 
-    def __attrs_post_init__(self):
-        def parse(self):
+        def parse():
             pbook = self.query.lower().split(' ')
             prebook1 = GetDistance(pbook[0])
             prebook2 = GetDistance(pbook[0] + ' ' + pbook[1])
@@ -78,7 +77,31 @@ class InputParser(object):
                         del workon[i]
                         workon.insert(i, unpack(lsvt))
                 subbook[chapter] = entry(flatten(workon))
+            self.result = {}
             self.result[entbook.closest] = subbook
-            ic(self.result)
 
-        parse(self)
+        parse()
+
+    def __str__(self):
+        _str = ''
+        for book in self.result:
+            _str += (book + ' ')
+            for chapter in self.result[book]:
+                _str += (str(chapter) + ':')
+                for verset in self.result[book][chapter]:
+                    _str += (str(verset) + ',')
+                _str = _str[:-1]
+                _str += ';'
+            _str = _str[:-1]
+        return _str
+
+    def __repr__(self):
+        return repr(self.result)
+
+    def __len__(self):
+        _len = 0
+        for book in self.result:
+            for chapter in self.result[book]:
+                for verset in self.result[book][chapter]:
+                    _len += 1
+        return _len

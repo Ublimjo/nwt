@@ -1,5 +1,6 @@
 import attr
 import textwrap
+from copy import deepcopy as copy
 from icecream import ic
 from bs4 import BeautifulSoup, NavigableString
 
@@ -48,6 +49,49 @@ def render(obj):
     return(text)
 
 
+class Render(object):
+    '''
+    obj
+    ---
+    { 'matio': {
+        '24': {
+            '14': 'Ary hotoriana',
+            '15': 'noho izany',
+            '16': 'dia aoka izay',
+        }
+    }
+    output
+    ------
+    Matio 24 14 Ary hotorina maneran-tany ity vaovao tsaran’ilay
+           |  | fanjakana ity, ho vavolombelona amin’ny firenena rehetra,
+           |  | vao ho tonga ny farany.
+           | 15 noho izany
+           | 16 dia aoka izany
+    '''
+    def __init__(self, obj):
+        self.text = ''
+        for book in obj:
+            self.text += '{} '.format(color.blue(book.title()))
+            lenbook = len(book)
+            for chapter in obj[book]:
+                self.text += '{} '.format(color.green(chapter))
+                lenchapter = len(str(chapter))
+                for verset in obj[book][chapter]:
+                    self.text += '{} '.format(color.red(verset))
+                    lenverset = len(str(verset))
+                    wtext = textwrap.wrap(obj[book][chapter][verset], 60)
+                    for line in wtext:
+                        self.text += (line + '\n' + (' ' * (lenbook +
+                            lenchapter)) + color.green('|') + (' ' * lenverset) +
+                            color.red('|') + ' ')
+                    self.text += ('\n' + (' ' * (lenbook + lenchapter)) +
+                        color.green('|') + ' ')
+                self.text += ('\n' + (' ' * (lenbook + lenchapter)))
+
+    def __str__(self):
+        return self.text
+
+
 @attr.s
 class OutputParser(object):
     query = attr.ib()
@@ -56,7 +100,7 @@ class OutputParser(object):
     def __attrs_post_init__(self):
         if not isinstance(self.query, InputParser):
             raise ValueError('query must be InputParser obj')
-        self.query = self.query.result
+        self.query = copy(self.query.result)
         rendered = self.query
 
         for book in self.query:
@@ -73,7 +117,7 @@ class OutputParser(object):
                             soup.find("span", attrs={"id": end})))
                     except AttributeError:
                         rendered[book][chapter][verset] = 'Invalid verset'
-        self.text = render(rendered)
+        self.text = Render(rendered)
 
     def __str__(self):
-        return self.text
+        return str(self.text)
