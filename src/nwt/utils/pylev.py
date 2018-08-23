@@ -23,6 +23,7 @@ __license__ = 'New BSD'
 
 
 import sys
+
 PY2 = sys.version_info[0] == 2
 
 if PY2:
@@ -105,9 +106,12 @@ def recursive_levenshtein(string_1, string_2, len_1=None, len_2=None, offset_1=0
         cost = 1
 
     dist = min(
-        recursive_levenshtein(string_1, string_2, len_1 - 1, len_2, offset_1 + 1, offset_2, memo) + 1,
-        recursive_levenshtein(string_1, string_2, len_1, len_2 - 1, offset_1, offset_2 + 1, memo) + 1,
-        recursive_levenshtein(string_1, string_2, len_1 - 1, len_2 - 1, offset_1 + 1, offset_2 + 1, memo) + cost,
+        recursive_levenshtein(string_1, string_2, len_1 - 1,
+                              len_2, offset_1 + 1, offset_2, memo) + 1,
+        recursive_levenshtein(string_1, string_2, len_1,
+                              len_2 - 1, offset_1, offset_2 + 1, memo) + 1,
+        recursive_levenshtein(string_1, string_2, len_1 - 1,
+                              len_2 - 1, offset_1 + 1, offset_2 + 1, memo) + cost,
     )
     memo[key] = dist
     return dist
@@ -145,9 +149,9 @@ def wf_levenshtein(string_1, string_2):
                 d[i + j * len_1] = d[i - 1 + (j - 1) * len_1]
             else:
                 d[i + j * len_1] = min(
-                   d[i - 1 + j * len_1] + 1,        # deletion
-                   d[i + (j - 1) * len_1] + 1,      # insertion
-                   d[i - 1 + (j - 1) * len_1] + 1,  # substitution
+                    d[i - 1 + j * len_1] + 1,        # deletion
+                    d[i + (j - 1) * len_1] + 1,      # insertion
+                    d[i - 1 + (j - 1) * len_1] + 1,  # substitution
                 )
 
     return d[-1]

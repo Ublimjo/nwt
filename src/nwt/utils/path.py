@@ -45,23 +45,23 @@ Example::
 
 from __future__ import unicode_literals
 
-import sys
-import warnings
-import os
-import fnmatch
-import glob
-import shutil
-import hashlib
-import errno
-import tempfile
-import functools
-import operator
-import re
 import contextlib
-import io
 import distutils.dir_util
+import errno
+import fnmatch
+import functools
+import glob
+import hashlib
 import importlib
+import io
 import itertools
+import operator
+import os
+import re
+import shutil
+import sys
+import tempfile
+import warnings
 
 try:
     import win32security
@@ -134,7 +134,7 @@ class TreeWalkWarning(Warning):
 
 # from jaraco.functools
 def compose(*funcs):
-    compose_two = lambda f1, f2: lambda *args, **kwargs: f1(f2(*args, **kwargs))  # noqa
+    def compose_two(f1, f2): return lambda *args, **kwargs: f1(f2(*args, **kwargs))  # noqa
     return functools.reduce(compose_two, funcs)
 
 
@@ -163,6 +163,7 @@ class multimethod(object):
     Acts like a classmethod when invoked from the class and like an
     instancemethod when invoked from the instance.
     """
+
     def __init__(self, func):
         self.func = func
 

@@ -1,10 +1,13 @@
-import attr
+"""
+Module to output and render to terminal or another stdout
+"""
 import textwrap
-from copy import deepcopy as copy
+
+import attr
 from bs4 import BeautifulSoup, NavigableString
 
-from nwt.cmd.inputparser import InputParser
 from nwt.cmd.fileparser import bookList
+from nwt.cmd.inputparser import InputParser
 from nwt.utils import color
 
 
@@ -22,30 +25,6 @@ def wrap(string, indent=0):
     line = "\n" + (' ' * indent) + color.green(" | ")
     final = line.join(text) + line
     return final
-
-
-def render(obj):
-    '''
-    obj
-    ---
-    { 'matio': {
-        '24': {
-            '14': 'Ary hotoriana',
-            '15': 'noho izany',
-            '16': 'dia aoka izay',
-        }
-    }
-    '''
-    text = ''
-    for book in obj:
-        text += '{} '.format(color.blue(book.title()))
-        lenbook = len(book)
-        for chapter in obj[book]:
-            text += '{} '.format(color.green(chapter))
-            for verset in obj[book][chapter]:
-                text += wrap('{}\n\n'.format(obj[book][chapter][verset]), lenbook)
-
-    return(text)
 
 
 class Render(object):
@@ -67,6 +46,7 @@ class Render(object):
            | 15 noho izany
            | 16 dia aoka izany
     '''
+
     def __init__(self, obj):
         self.text = ''
         for book in obj:
@@ -81,10 +61,10 @@ class Render(object):
                     wtext = textwrap.wrap(obj[book][chapter][verset], 60)
                     for line in wtext:
                         self.text += (line + '\n' + (' ' * (lenbook +
-                            lenchapter)) + color.green('|') + (' ' * lenverset) +
-                            color.red('|') + ' ')
+                                                            lenchapter)) + color.green('|') + (' ' * lenverset) +
+                                      color.red('|') + ' ')
                     self.text += ('\n' + (' ' * (lenbook + lenchapter)) +
-                        color.green('|') + ' ')
+                                  color.green('|') + ' ')
                 self.text += ('\n' + (' ' * (lenbook + lenchapter)))
 
     def __str__(self):
@@ -99,7 +79,7 @@ class OutputParser(object):
     def __attrs_post_init__(self):
         if not isinstance(self.query, InputParser):
             raise ValueError('query must be InputParser obj')
-        self.query = copy(self.query.result)
+        self.query = self.query.result
         rendered = self.query
 
         for book in self.query:
@@ -109,10 +89,12 @@ class OutputParser(object):
                     soup = BeautifulSoup(fp, "html.parser")
                 for verset in self.query[book][chapter]:
                     start = u"chapter" + str(chapter) + "_verse" + str(verset)
-                    end = u"chapter" + str(chapter) + "_verse" + str(verset + 1)
+                    end = u"chapter" + str(chapter) + \
+                        "_verse" + str(verset + 1)
                     try:
                         rendered[book][chapter][verset] = ' '.join(_ for _ in between(
-                            soup.find("span", attrs={"id": start}).next_sibling,
+                            soup.find("span", attrs={
+                                      "id": start}).next_sibling,
                             soup.find("span", attrs={"id": end})))
                     except AttributeError:
                         rendered[book][chapter][verset] = 'Invalid verset'

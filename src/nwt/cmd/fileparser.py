@@ -1,5 +1,6 @@
-from nwt.utils import Dir
 from bs4 import BeautifulSoup
+
+from nwt.utils import Dir
 
 with open(Dir.tmpRoot / 'toc.xhtml', 'r') as toc:
     soup = BeautifulSoup(toc, "html.parser")

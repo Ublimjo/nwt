@@ -2,13 +2,12 @@
 """
 Entry point of module
 """
-from __future__ import division, print_function, absolute_import
-
-from nwt import __version__
-from nwt.cmd import Interactive
+from __future__ import absolute_import, division, print_function
 
 import click
 
+from nwt import __version__
+from nwt.cmd import Interactive
 
 __author__ = "Ublim"
 __copyright__ = "Ublim"
