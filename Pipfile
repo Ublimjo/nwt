@@ -4,12 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-attrs = "==17.4.0"
-tqdm = "==4.20"
-requests = "==2.18"
-prompt-toolkit = ">=1.0.15"
-beautifulsoup4 = ">=4.6"
 click = "==6.7"
+tqdm = "==4.20"
+attrs = "==17.4.0"
+requests = "==2.18"
+beautifulsoup4 = ">=4.6"
+prompt-toolkit = ">=1.0.15"
 pyscaffold = ">=3.0a0,<3.1a0"
 
 [dev-packages]

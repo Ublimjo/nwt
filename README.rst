@@ -8,7 +8,7 @@ Bible new world translation in cli
 Description
 ===========
 
-Bible new world translation in cli
+Bible new world translation in cli and writen in python
 
 
 Note
