@@ -1,4 +1,3 @@
-import attr
 import collections
 
 from nwt.utils import GetDistance
@@ -60,6 +59,12 @@ class InputParser(object):
             if prebook1.distance > prebook2.distance:
                 entbook = prebook2
                 with_sub = True
+            if prebook1.distance == prebook2.distance:
+                entbook = prebook1
+                if len(prebook1.closest.split(' ')) == 1:
+                    with_sub = True
+                else:
+                    with_sub = False
 
             rawsubbook = pbook[1] if not with_sub else pbook[2]
             subbook = {}
