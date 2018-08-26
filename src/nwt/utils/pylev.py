@@ -21,7 +21,6 @@ __author__ = 'Daniel Lindsley'
 __version__ = (1, 3, 0)
 __license__ = 'New BSD'
 
-
 import sys
 
 PY2 = sys.version_info[0] == 2
@@ -67,7 +66,13 @@ def classic_levenshtein(string_1, string_2):
         )
 
 
-def recursive_levenshtein(string_1, string_2, len_1=None, len_2=None, offset_1=0, offset_2=0, memo=None):
+def recursive_levenshtein(string_1,
+                          string_2,
+                          len_1=None,
+                          len_2=None,
+                          offset_1=0,
+                          offset_2=0,
+                          memo=None):
     """
     Calculates the Levenshtein distance between two strings.
 
@@ -106,12 +111,12 @@ def recursive_levenshtein(string_1, string_2, len_1=None, len_2=None, offset_1=0
         cost = 1
 
     dist = min(
-        recursive_levenshtein(string_1, string_2, len_1 - 1,
-                              len_2, offset_1 + 1, offset_2, memo) + 1,
-        recursive_levenshtein(string_1, string_2, len_1,
-                              len_2 - 1, offset_1, offset_2 + 1, memo) + 1,
-        recursive_levenshtein(string_1, string_2, len_1 - 1,
-                              len_2 - 1, offset_1 + 1, offset_2 + 1, memo) + cost,
+        recursive_levenshtein(string_1, string_2, len_1 - 1, len_2,
+                              offset_1 + 1, offset_2, memo) + 1,
+        recursive_levenshtein(string_1, string_2, len_1, len_2 - 1, offset_1,
+                              offset_2 + 1, memo) + 1,
+        recursive_levenshtein(string_1, string_2, len_1 - 1, len_2 - 1,
+                              offset_1 + 1, offset_2 + 1, memo) + cost,
     )
     memo[key] = dist
     return dist
@@ -149,8 +154,8 @@ def wf_levenshtein(string_1, string_2):
                 d[i + j * len_1] = d[i - 1 + (j - 1) * len_1]
             else:
                 d[i + j * len_1] = min(
-                    d[i - 1 + j * len_1] + 1,        # deletion
-                    d[i + (j - 1) * len_1] + 1,      # insertion
+                    d[i - 1 + j * len_1] + 1,  # deletion
+                    d[i + (j - 1) * len_1] + 1,  # insertion
                     d[i - 1 + (j - 1) * len_1] + 1,  # substitution
                 )
 
@@ -279,7 +284,8 @@ def damerau_levenshtein(string_1, string_2):
                     cost = y_cost
 
                 # transposition
-                if i > 0 and j > 0 and s1[i] == s2[j - 1] and s1[i - 1] == s2[j]:
+                if i > 0 and j > 0 and s1[i] == s2[j - 1] and s1[i -
+                                                                 1] == s2[j]:
                     transp_cost = dprev[j - 1] + 1
                     if transp_cost < cost:
                         cost = transp_cost

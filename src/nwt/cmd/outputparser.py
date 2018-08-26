@@ -26,6 +26,7 @@ def between(cur, end):
 
 
 class Render(object):
+
     '''
     obj
     ---
@@ -58,12 +59,9 @@ class Render(object):
                     lenverset = len(str(verset))
                     wtext = textwrap.wrap(obj[book][chapter][verset], 60)
                     for line in wtext:
-                        self.text += (line +
-                                      '\n' +
-                                      (' ' * (lenbook + lenchapter)) +
-                                      color.green('|') +
-                                      (' ' * lenverset) +
-                                      color.red('|') + ' ')
+                        self.text += (line + '\n' + (
+                            ' ' * (lenbook + lenchapter)) + color.green('|') +
+                                      (' ' * lenverset) + color.red('|') + ' ')
                     self.text += ('\n' + (' ' * (lenbook + lenchapter)) +
                                   color.green('|') + ' ')
                 self.text += ('\n' + (' ' * (lenbook + lenchapter)))
@@ -96,7 +94,8 @@ class OutputParser(object):
                         rendered[book][chapter][verset] = ' '.join(
                             _ for _ in between(
                                 soup.find("span", attrs={
-                                        "id": start}).next_sibling,
+                                    "id": start
+                                }).next_sibling,
                                 soup.find("span", attrs={"id": end})))
                     except AttributeError:
                         rendered[book][chapter][verset] = 'Invalid verset'

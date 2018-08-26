@@ -80,13 +80,12 @@ except ImportError:
 
 ##############################################################################
 # Python 2/3 support
-PY3 = sys.version_info >= (3,)
+PY3 = sys.version_info >= (3, )
 PY2 = not PY3
 
 string_types = str,
 text_type = str
 getcwdu = os.getcwd
-
 
 if PY2:
     import __builtin__
@@ -107,11 +106,10 @@ def io_error_compat():
         os_err.filename = getattr(io_err, 'filename', None)
         raise os_err
 
+
 ##############################################################################
 
-
 __all__ = ['Path', 'CaseInsensitivePattern']
-
 
 LINESEPS = ['\r\n', '\r', '\n']
 U_LINESEPS = LINESEPS + ['\u0085', '\u2028', '\u2029']
@@ -119,7 +117,6 @@ NEWLINE = re.compile('|'.join(LINESEPS))
 U_NEWLINE = re.compile('|'.join(U_LINESEPS))
 NL_END = re.compile(r'(?:{0})$'.format(NEWLINE.pattern))
 U_NL_END = re.compile(r'(?:{0})$'.format(U_NEWLINE.pattern))
-
 
 try:
     import pkg_resources
@@ -134,7 +131,9 @@ class TreeWalkWarning(Warning):
 
 # from jaraco.functools
 def compose(*funcs):
-    def compose_two(f1, f2): return lambda *args, **kwargs: f1(f2(*args, **kwargs))  # noqa
+    def compose_two(f1, f2):
+        return lambda *args, **kwargs: f1(f2(*args, **kwargs))  # noqa
+
     return functools.reduce(compose_two, funcs)
 
 
@@ -150,6 +149,7 @@ def simple_cache(func):
             return saved_results[module]
         saved_results[module] = func(cls, module)
         return saved_results[module]
+
     return wrapper
 
 
@@ -159,6 +159,7 @@ class ClassProperty(property):
 
 
 class multimethod(object):
+
     """
     Acts like a classmethod when invoked from the class and like an
     instancemethod when invoked from the instance.
@@ -168,13 +169,13 @@ class multimethod(object):
         self.func = func
 
     def __get__(self, instance, owner):
-        return (
-            functools.partial(self.func, owner) if instance is None
-            else functools.partial(self.func, owner, instance)
-        )
+        return (functools.partial(self.func, owner)
+                if instance is None else functools.partial(
+                    self.func, owner, instance))
 
 
 class Path(text_type):
+
     """
     Represents a filesystem path.
 
@@ -206,7 +207,7 @@ class Path(text_type):
         subclass_name = cls.__name__ + '_' + module.__name__
         if PY2:
             subclass_name = str(subclass_name)
-        bases = (cls,)
+        bases = (cls, )
         ns = {'module': module}
         return type(subclass_name, bases, ns)
 
@@ -599,6 +600,7 @@ class Path(text_type):
         reports the error via :func:`warnings.warn()`), and ``'ignore'``.
         `errors` may also be an arbitrary callable taking a msg parameter.
         """
+
         class Handlers:
             def strict(msg):
                 raise
@@ -661,9 +663,8 @@ class Path(text_type):
                 return
             elif errors == 'warn':
                 warnings.warn(
-                    "Unable to list directory '%s': %s"
-                    % (self, sys.exc_info()[1]),
-                    TreeWalkWarning)
+                    "Unable to list directory '%s': %s" %
+                    (self, sys.exc_info()[1]), TreeWalkWarning)
                 return
             else:
                 raise
@@ -692,9 +693,8 @@ class Path(text_type):
                 return
             elif errors == 'warn':
                 warnings.warn(
-                    "Unable to list directory '%s': %s"
-                    % (self, sys.exc_info()[1]),
-                    TreeWalkWarning)
+                    "Unable to list directory '%s': %s" %
+                    (self, sys.exc_info()[1]), TreeWalkWarning)
                 return
             else:
                 raise
@@ -708,9 +708,8 @@ class Path(text_type):
                     continue
                 elif errors == 'warn':
                     warnings.warn(
-                        "Unable to access '%s': %s"
-                        % (self, sys.exc_info()[1]),
-                        TreeWalkWarning)
+                        "Unable to access '%s': %s" %
+                        (self, sys.exc_info()[1]), TreeWalkWarning)
                     continue
                 else:
                     raise
@@ -817,8 +816,12 @@ class Path(text_type):
         with self.open(mode='r', encoding=encoding, errors=errors) as f:
             return U_NEWLINE.sub('\n', f.read())
 
-    def write_text(self, text, encoding=None, errors='strict',
-                   linesep=os.linesep, append=False):
+    def write_text(self,
+                   text,
+                   encoding=None,
+                   errors='strict',
+                   linesep=os.linesep,
+                   append=False):
         r""" Write the given text to this file.
 
         The default behavior is to overwrite any existing file;
@@ -916,8 +919,12 @@ class Path(text_type):
         else:
             return self.text(encoding, errors).splitlines(retain)
 
-    def write_lines(self, lines, encoding=None, errors='strict',
-                    linesep=os.linesep, append=False):
+    def write_lines(self,
+                    lines,
+                    encoding=None,
+                    errors='strict',
+                    linesep=os.linesep,
+                    append=False):
         r""" Write the given lines of text to this file.
 
         By default this overwrites any existing file at this path.
@@ -961,8 +968,8 @@ class Path(text_type):
                     pattern = U_NL_END if isUnicode else NL_END
                     line = pattern.sub('', line) + linesep
                 if isUnicode:
-                    line = line.encode(
-                        encoding or sys.getdefaultencoding(), errors)
+                    line = line.encode(encoding or sys.getdefaultencoding(),
+                                       errors)
                 f.write(line)
 
     def read_md5(self):
@@ -1046,8 +1053,7 @@ class Path(text_type):
         return self.module.getatime(self)
 
     atime = property(
-        getatime, None, None,
-        """ Last access time of the file.
+        getatime, None, None, """ Last access time of the file.
 
         .. seealso:: :meth:`getatime`, :func:`os.path.getatime`
         """)
@@ -1057,8 +1063,7 @@ class Path(text_type):
         return self.module.getmtime(self)
 
     mtime = property(
-        getmtime, None, None,
-        """ Last-modified time of the file.
+        getmtime, None, None, """ Last-modified time of the file.
 
         .. seealso:: :meth:`getmtime`, :func:`os.path.getmtime`
         """)
@@ -1068,8 +1073,7 @@ class Path(text_type):
         return self.module.getctime(self)
 
     ctime = property(
-        getctime, None, None,
-        """ Creation time of the file.
+        getctime, None, None, """ Creation time of the file.
 
         .. seealso:: :meth:`getctime`, :func:`os.path.getctime`
         """)
@@ -1079,13 +1083,13 @@ class Path(text_type):
         return self.module.getsize(self)
 
     size = property(
-        getsize, None, None,
-        """ Size of the file, in bytes.
+        getsize, None, None, """ Size of the file, in bytes.
 
         .. seealso:: :meth:`getsize`, :func:`os.path.getsize`
         """)
 
     if hasattr(os, 'access'):
+
         def access(self, mode):
             """ Return ``True`` if current user has access to this path.
 
@@ -1146,12 +1150,12 @@ class Path(text_type):
         get_owner = __get_owner_not_implemented
 
     owner = property(
-        get_owner, None, None,
-        """ Name of the owner of this file or directory.
+        get_owner, None, None, """ Name of the owner of this file or directory.
 
         .. seealso:: :meth:`get_owner`""")
 
     if hasattr(os, 'statvfs'):
+
         def statvfs(self):
             """ Perform a ``statvfs()`` system call on this path.
 
@@ -1160,6 +1164,7 @@ class Path(text_type):
             return os.statvfs(self)
 
     if hasattr(os, 'pathconf'):
+
         def pathconf(self, name):
             """ .. seealso:: :func:`os.pathconf` """
             return os.pathconf(self, name)
@@ -1324,6 +1329,7 @@ class Path(text_type):
     # --- Links
 
     if hasattr(os, 'link'):
+
         def link(self, newpath):
             """ Create a hard link at `newpath`, pointing to this file.
 
@@ -1333,6 +1339,7 @@ class Path(text_type):
             return self._next_class(newpath)
 
     if hasattr(os, 'symlink'):
+
         def symlink(self, newlink=None):
             """ Create a symbolic link at `newlink`, pointing here.
 
@@ -1347,6 +1354,7 @@ class Path(text_type):
             return self._next_class(newlink)
 
     if hasattr(os, 'readlink'):
+
         def readlink(self):
             """ Return the path to which this symbolic link points.
 
@@ -1433,11 +1441,13 @@ class Path(text_type):
     # --- Special stuff from os
 
     if hasattr(os, 'chroot'):
+
         def chroot(self):
             """ .. seealso:: :func:`os.chroot` """
             os.chroot(self)
 
     if hasattr(os, 'startfile'):
+
         def startfile(self):
             """ .. seealso:: :func:`os.startfile` """
             os.startfile(self)
@@ -1447,8 +1457,13 @@ class Path(text_type):
     # http://www.zopatista.com/python/2013/11/26/inplace-file-rewriting/
     @contextlib.contextmanager
     def in_place(
-            self, mode='r', buffering=-1, encoding=None, errors=None,
-            newline=None, backup_extension=None,
+            self,
+            mode='r',
+            buffering=-1,
+            encoding=None,
+            errors=None,
+            newline=None,
+            backup_extension=None,
     ):
         """
         A context in which a file may be re-written in-place with
@@ -1489,15 +1504,22 @@ class Path(text_type):
             pass
         os.rename(self, backup_fn)
         readable = io.open(
-            backup_fn, mode, buffering=buffering,
-            encoding=encoding, errors=errors, newline=newline,
+            backup_fn,
+            mode,
+            buffering=buffering,
+            encoding=encoding,
+            errors=errors,
+            newline=newline,
         )
         try:
             perm = os.fstat(readable.fileno()).st_mode
         except OSError:
             writable = open(
-                self, 'w' + mode.replace('r', ''),
-                buffering=buffering, encoding=encoding, errors=errors,
+                self,
+                'w' + mode.replace('r', ''),
+                buffering=buffering,
+                encoding=encoding,
+                errors=errors,
                 newline=newline,
             )
         else:
@@ -1506,8 +1528,11 @@ class Path(text_type):
                 os_mode |= os.O_BINARY
             fd = os.open(self, os_mode, perm)
             writable = io.open(
-                fd, "w" + mode.replace('r', ''),
-                buffering=buffering, encoding=encoding, errors=errors,
+                fd,
+                "w" + mode.replace('r', ''),
+                buffering=buffering,
+                encoding=encoding,
+                errors=errors,
                 newline=newline,
             )
             try:
@@ -1598,9 +1623,11 @@ class SpecialResolver(object):
 
 
 class Multi:
+
     """
     A mix-in for a Path which may contain multiple Path separated by pathsep.
     """
+
     @classmethod
     def for_class(cls, path_cls):
         name = 'Multi' + path_cls.__name__
@@ -1624,13 +1651,11 @@ class Multi:
         Multi-subclasses should use the parent class
         """
         return next(
-            class_
-            for class_ in cls.__mro__
-            if not issubclass(class_, Multi)
-        )
+            class_ for class_ in cls.__mro__ if not issubclass(class_, Multi))
 
 
 class tempdir(Path):
+
     """
     A temporary directory via :func:`tempfile.mkdtemp`, and
     constructed with the same parameters that you can use
@@ -1673,8 +1698,10 @@ def _multi_permission_mask(mode):
     >>> _multi_permission_mask('a=r,u+w')(0) == 0o644
     True
     """
+
     def compose(f, g):
         return lambda *args, **kwargs: g(f(*args, **kwargs))
+
     return functools.reduce(compose, map(_permission_mask, mode.split(',')))
 
 
@@ -1741,6 +1768,7 @@ def _permission_mask(mode):
 
 
 class CaseInsensitivePattern(text_type):
+
     """
     A string with a ``'normcase'`` property, suitable for passing to
     :meth:`listdir`, :meth:`dirs`, :meth:`files`, :meth:`walk`,
@@ -1759,6 +1787,7 @@ class CaseInsensitivePattern(text_type):
 
 
 class FastPath(Path):
+
     """
     Performance optimized version of Path for use
     on embedded platforms and other systems with limited
@@ -1846,9 +1875,8 @@ class FastPath(Path):
                 return
             elif errors == 'warn':
                 warnings.warn(
-                    "Unable to list directory '%s': %s"
-                    % (self, sys.exc_info()[1]),
-                    TreeWalkWarning)
+                    "Unable to list directory '%s': %s" %
+                    (self, sys.exc_info()[1]), TreeWalkWarning)
                 return
             else:
                 raise
@@ -1879,9 +1907,8 @@ class FastPath(Path):
                 return
             elif errors == 'warn':
                 warnings.warn(
-                    "Unable to list directory '%s': %s"
-                    % (self, sys.exc_info()[1]),
-                    TreeWalkWarning)
+                    "Unable to list directory '%s': %s" %
+                    (self, sys.exc_info()[1]), TreeWalkWarning)
                 return
             else:
                 raise
@@ -1895,9 +1922,8 @@ class FastPath(Path):
                     continue
                 elif errors == 'warn':
                     warnings.warn(
-                        "Unable to access '%s': %s"
-                        % (self, sys.exc_info()[1]),
-                        TreeWalkWarning)
+                        "Unable to access '%s': %s" %
+                        (self, sys.exc_info()[1]), TreeWalkWarning)
                     continue
                 else:
                     raise

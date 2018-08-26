@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 """
 module for entry interaction
 """
@@ -12,11 +13,7 @@ from .outputparser import OutputParser
 
 @attr.s
 class Interactive(object):
-    state = attr.ib({
-        'main': 'nwt',
-        'book': '',
-        'chapter': 0,
-        'verset': 0})
+    state = attr.ib({'main': 'nwt', 'book': '', 'chapter': 0, 'verset': 0})
     on = attr.ib(default='main')
     lprompt = attr.ib()
 
@@ -32,19 +29,14 @@ class Interactive(object):
         """
         if not self.state['book']:
             self.on = 'main'
-            return ' {} > '.format(
-                self.state['main'])
+            return ' {} > '.format(self.state['main'])
         if not self.state['chapter']:
             self.on = 'book'
-            return ' {} > {} > '.format(
-                self.state['main'],
-                self.state['book'])
+            return ' {} > {} > '.format(self.state['main'], self.state['book'])
         if not self.state['verset']:
             self.on = 'chapter'
             return ' {} > {} > {} > '.format(
-                self.state['main'],
-                self.state['book'],
-                self.state['chapter'])
+                self.state['main'], self.state['book'], self.state['chapter'])
 
     def prompter(self):
         """

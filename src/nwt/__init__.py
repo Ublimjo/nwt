@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 """
 Bible new world translation in cli
 """

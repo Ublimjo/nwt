@@ -97,8 +97,8 @@ class InputParser(object):
             subbook = {}
             for raw in rawsubbook.split(';'):
                 chapter = int(raw.split(':')[0])
-                verset = list(_int(item) for item in
-                              raw.split(':')[1].split(','))
+                verset = list(
+                    _int(item) for item in raw.split(':')[1].split(','))
                 subbook[chapter] = verset
 
             for chapter in subbook:
