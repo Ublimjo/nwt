@@ -1,9 +1,17 @@
+"""
+Module to parser all input query
+"""
+
 import collections
 
 from nwt.utils import GetDistance
 
 
 def _int(castable):
+    """
+    cast arg to int
+    """
+
     try:
         return int(castable)
     except ValueError:
@@ -11,6 +19,11 @@ def _int(castable):
 
 
 def unpack(packed):
+    """
+    unpack packed list
+    '6-9' -> [6, 7, 8, 9]
+    """
+
     first = int(packed.split('-')[0])
     second = int(packed.split('-')[1])
     if first == second:
@@ -25,6 +38,11 @@ def unpack(packed):
 
 
 def flatten(inputArr, outputArr=None, isFirst=True):
+    """
+    flatten list (source code from python algorthitme)
+    [[2, 4, 8], 5, [6, [1], 0]] -> [2, 4, 8, 5, 6, 1, o]
+    """
+
     if not outputArr and isFirst:
         outputArr = []
     for ele in inputArr:
@@ -36,6 +54,11 @@ def flatten(inputArr, outputArr=None, isFirst=True):
 
 
 def entry(_list):
+    """
+    convert list to dict entry
+    [6, 8, 2] -> {6: '', 8: '', 2: ''}
+    """
+
     _dict = {}
     for index in _list:
         _dict[index] = ''
@@ -49,6 +72,10 @@ class InputParser(object):
         self.result = {}
 
         def parse():
+            """
+            Entry fornauto parse query
+            """
+
             pbook = self.query.lower().split(' ')
             prebook1 = GetDistance(pbook[0])
             prebook2 = GetDistance(pbook[0] + ' ' + pbook[1])

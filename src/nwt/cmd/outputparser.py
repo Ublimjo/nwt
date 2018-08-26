@@ -1,6 +1,7 @@
 """
 Module to output and render to terminal or another stdout
 """
+
 import textwrap
 
 import attr
@@ -12,19 +13,16 @@ from nwt.utils import color
 
 
 def between(cur, end):
+    """
+    Get text between two different tag
+    """
+
     while cur and cur != end:
         if isinstance(cur, NavigableString):
             text = cur.strip()
             if len(text):
                 yield text
         cur = cur.next_element
-
-
-def wrap(string, indent=0):
-    text = textwrap.wrap(string, 60)
-    line = "\n" + (' ' * indent) + color.green(" | ")
-    final = line.join(text) + line
-    return final
 
 
 class Render(object):
@@ -60,8 +58,11 @@ class Render(object):
                     lenverset = len(str(verset))
                     wtext = textwrap.wrap(obj[book][chapter][verset], 60)
                     for line in wtext:
-                        self.text += (line + '\n' + (' ' * (lenbook +
-                                                            lenchapter)) + color.green('|') + (' ' * lenverset) +
+                        self.text += (line +
+                                      '\n' +
+                                      (' ' * (lenbook + lenchapter)) +
+                                      color.green('|') +
+                                      (' ' * lenverset) +
                                       color.red('|') + ' ')
                     self.text += ('\n' + (' ' * (lenbook + lenchapter)) +
                                   color.green('|') + ' ')
@@ -92,10 +93,11 @@ class OutputParser(object):
                     end = u"chapter" + str(chapter) + \
                         "_verse" + str(verset + 1)
                     try:
-                        rendered[book][chapter][verset] = ' '.join(_ for _ in between(
-                            soup.find("span", attrs={
-                                      "id": start}).next_sibling,
-                            soup.find("span", attrs={"id": end})))
+                        rendered[book][chapter][verset] = ' '.join(
+                            _ for _ in between(
+                                soup.find("span", attrs={
+                                        "id": start}).next_sibling,
+                                soup.find("span", attrs={"id": end})))
                     except AttributeError:
                         rendered[book][chapter][verset] = 'Invalid verset'
         self.text = Render(rendered)
