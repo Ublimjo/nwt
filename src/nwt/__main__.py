@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-
 """
 Entry point of module
 """
+
 from __future__ import absolute_import, division, print_function
 
+import os
 import click
 
 from nwt import __version__
@@ -22,6 +23,7 @@ def main(ctx):
     """
     Bible new world translation
     """
+
     if not ctx.invoked_subcommand:
         greet()
         workon = Interactive()
@@ -29,7 +31,10 @@ def main(ctx):
 
 
 def greet():
-    import os
+    """
+    Print greeting in terminal
+    """
+
     width = os.get_terminal_size()[0]
     sVersion = 'Version: ' + __version__
     title = 'bible new world translation'
