@@ -19,7 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-
 """
 path.py - An object representing a path to a file or directory.
 
@@ -159,7 +158,6 @@ class ClassProperty(property):
 
 
 class multimethod(object):
-
     """
     Acts like a classmethod when invoked from the class and like an
     instancemethod when invoked from the instance.
@@ -175,7 +173,6 @@ class multimethod(object):
 
 
 class Path(text_type):
-
     """
     Represents a filesystem path.
 
@@ -1623,7 +1620,6 @@ class SpecialResolver(object):
 
 
 class Multi:
-
     """
     A mix-in for a Path which may contain multiple Path separated by pathsep.
     """
@@ -1655,7 +1651,6 @@ class Multi:
 
 
 class tempdir(Path):
-
     """
     A temporary directory via :func:`tempfile.mkdtemp`, and
     constructed with the same parameters that you can use
@@ -1768,7 +1763,6 @@ def _permission_mask(mode):
 
 
 class CaseInsensitivePattern(text_type):
-
     """
     A string with a ``'normcase'`` property, suitable for passing to
     :meth:`listdir`, :meth:`dirs`, :meth:`files`, :meth:`walk`,
@@ -1787,7 +1781,6 @@ class CaseInsensitivePattern(text_type):
 
 
 class FastPath(Path):
-
     """
     Performance optimized version of Path for use
     on embedded platforms and other systems with limited

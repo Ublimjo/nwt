@@ -35,7 +35,6 @@ class Interactive(object):
                 else:
                     b.insert_text(' ')
 
-
     def prompter(self):
         """
         Function to replace 'input' -> 'prompt'
@@ -44,11 +43,11 @@ class Interactive(object):
         try:
             result = self.session.prompt(
                 self.leftp,
-                key_bindings=self.bindings,)
+                key_bindings=self.bindings,
+            )
             return result
-        except(KeyboardInterrupt, EOFError):
+        except (KeyboardInterrupt, EOFError):
             sys.exit(0)
-
 
     def run(self):
         """

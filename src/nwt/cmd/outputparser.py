@@ -26,7 +26,6 @@ def between(cur, end):
 
 
 class Render(object):
-
     '''
     obj
     ---
