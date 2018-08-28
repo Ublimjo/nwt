@@ -29,8 +29,11 @@ class Interactive(object):
             b = event.app.current_buffer
             w = b.document.get_word_before_cursor()
             if w is not None:
-                b.delete_before_cursor(count=len(w))
-                b.insert_text(GetDistance(w).closest + ' ')
+                if len(w) > 1:
+                    b.delete_before_cursor(count=99)
+                    b.insert_text(GetDistance(w).closest + ' ')
+                else:
+                    b.insert_text(' ')
 
 
     def prompter(self):
